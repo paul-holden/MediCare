@@ -21,6 +21,7 @@ public class User {
     {
         this.UName = UName;
     }
+
     public String getUName()
     {
         return this.UName;

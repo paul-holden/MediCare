@@ -12,6 +12,7 @@ package com.example.paulholden.mymedicare;
         import android.view.View;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.EditText;
         import android.widget.Spinner;
         import android.widget.TextView;
         import android.widget.Toast;
@@ -73,18 +74,18 @@ public class RiskCalc extends AppCompatActivity {
                 //try and catch to prevent possible errors
                 try {
                     //setup variables for all text fields for input values
-                    TextView temp = (TextView) findViewById(R.id.TempTxt);
-                    TextView Hibp = (TextView) findViewById(R.id.BloodPressureHigh);
-                    TextView Lobp = (TextView) findViewById(R.id.LowBloodPresure);
-                    TextView hr = (TextView) findViewById(R.id.Pulse);
+                    EditText Temp = (EditText) findViewById(R.id.TempTxt);
+                    EditText Hibp = (EditText) findViewById(R.id.BloodPressureHigh);
+                    EditText Lobp = (EditText) findViewById(R.id.LowBloodPresure);
+                    EditText Pulse = (EditText) findViewById(R.id.Pulse);
                     //setup variable to hold spinner id value holding temp type selected
                     Spinner tempDropdown = (Spinner) findViewById(R.id.tempSpinner);
 
                     //variables hold the values of all data input to text views
-                    double temperatInt = Integer.parseInt(temp.getText().toString());
+                    double temperatInt = Integer.parseInt(Temp.getText().toString());
                     int HighbloodPresureInt = Integer.parseInt(Hibp.getText().toString());
                     int LowbloodPresureInt = Integer.parseInt(Lobp.getText().toString());
-                    int hearRateInt = Integer.parseInt(hr.getText().toString());
+                    int hearRateInt = Integer.parseInt(Pulse.getText().toString());
                     String degreeOrFar = (String) tempDropdown.getSelectedItem();
                     //set up strings to holds results value of calculations
                     String verdictTemp = null;
@@ -187,6 +188,22 @@ public class RiskCalc extends AppCompatActivity {
                     highBPDisp.setText(verdictHBP);
                     lowBPDisp.setText(verdictLBP);
                     PulseDisp.setText(verdictHR);
+
+                    String tempstr = Temp.getText().toString();
+                    String hibpstr = Hibp.getText().toString();
+                    String lobpstr = Lobp.getText().toString();
+                    String pulsestr = Pulse.getText().toString();
+
+                    Calculations ca = new Calculations();
+                    ca.setTemp(tempstr);
+                    ca.setHighbp(hibpstr);
+                    ca.setLowBP(lobpstr);
+                    ca.setPulse(pulsestr);
+
+                    db.open();
+                    db.inserCalculations(ca);
+                    db.close();
+
 
                     //if any of the verdicts are HIGH send text to GP
                     if (verdictTemp.equals("HIGH") || verdictLBP.equals("HIGH") || verdictHBP.equals("HIGH") || verdictHR.equals("HIGH")) {
