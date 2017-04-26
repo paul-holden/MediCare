@@ -170,7 +170,7 @@ public class mediCareDB{
     public  String searchPass(String Uname)
     {
 
-        String query  = "select " + COLUMN_EMAIL + " , " + COLUMN_PASSWORD +" from " + TABLE_USERS;
+        String query  = "select " + COLUMN_USER_ID  + ", "+ COLUMN_EMAIL + " , " + COLUMN_PASSWORD +" from " + TABLE_USERS;
         Cursor cursor = db.rawQuery(query, null);
         String a,b;
         int position = 0;
@@ -179,18 +179,19 @@ public class mediCareDB{
         {
 
             do{
-                a = cursor.getString(0);
+                a = cursor.getString(1);
                // b = cursor.getString(1);
                 if(a.equals(Uname))
                 {
-                    b =cursor.getString(1);
+                    b =cursor.getString(2);
+                    position = Integer.parseInt(cursor.getString(0));
                     break;
                 }
-                position++;
+
             }while(cursor.moveToNext());
         }
 
-        position++;
+
 
         SharedPreferences share = PreferenceManager.getDefaultSharedPreferences(this.context);
         SharedPreferences.Editor editor = share.edit();
@@ -201,19 +202,19 @@ public class mediCareDB{
         return  b;
     }
 
-    public Cursor getAccount(int i) throws SQLException {
-        //query database for current row for data
-        Cursor mCursor = db.query(true, TABLE_USERS, new String[]
-                        {COLUMN_USER_ID, COLUMN_NAME, COLUMN_PASSWORD, COLUMN_USERNAME, COLUMN_EMAIL,
-                                COLUMN_NURSENUMBER}, COLUMN_USER_ID + " like " + i , null,
-                null, null, null, null);
-        //if cursor exists, go to the first point in database
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        //return the cursor
-        return mCursor;
-    }
+//    public Cursor getAccount(int i) throws SQLException {
+//        //query database for current row for data
+//        Cursor mCursor = db.query(true, TABLE_USERS, new String[]
+//                        {COLUMN_USER_ID, COLUMN_NAME, COLUMN_PASSWORD, COLUMN_USERNAME, COLUMN_EMAIL,
+//                                COLUMN_NURSENUMBER}, COLUMN_USER_ID + " like " + i , null,
+//                null, null, null, null);
+//        //if cursor exists, go to the first point in database
+//        if (mCursor != null) {
+//            mCursor.moveToFirst();
+//        }
+//        //return the cursor
+//        return mCursor;
+//    }
 
 
 
